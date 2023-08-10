@@ -43,7 +43,13 @@ async function run() {
     console.log("Database connected!");
 
     // Creating Database Collections
-    const servicesCollection = client.db("SnapVault").collection("images");
+    const postsCollection = client.db("SnapVault").collection("posts");
+
+    app.post("/posts", async (req, res) => {
+      const newPost = req.body;
+      const result = await postsCollection.insertOne(newPost);
+      res.send(result);
+    });
 
     // API routes
     // API route to get all services data
