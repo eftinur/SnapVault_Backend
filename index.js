@@ -51,6 +51,15 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/posts", async (req, res) => {
+      let query = {};
+      if (req.query.user_email) {
+        query = { user_email: req.query.user_email };
+      }
+      const posts = await postsCollection.find(query).toArray();
+      res.send(posts);
+    });
+
     // API routes
     // API route to get all services data
   } finally {
