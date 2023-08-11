@@ -44,24 +44,27 @@ async function run() {
 
     // Creating Database Collections
     const postsCollection = client.db("SnapVault").collection("posts");
-
-    app.post("/posts", async (req, res) => {
-      const newPost = req.body;
-      const result = await postsCollection.insertOne(newPost);
-      res.send(result);
-    });
-
+    
+    // API routes
+    // API to get posts data sorted
     app.get("/posts", async (req, res) => {
       let query = {};
       if (req.query.user_email) {
         query = { user_email: req.query.user_email };
       }
-      const posts = await postsCollection.find(query).toArray();
+      const posts = await postsCollection
+        .find(query)
+        .sort({ _id: -1 })
+        .toArray();
       res.send(posts);
     });
 
-    // API routes
-    // API route to get all services data
+    // API to save posts data
+    app.post("/posts", async (req, res) => {
+      const newPost = req.body;
+      const result = await postsCollection.insertOne(newPost);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
   }
