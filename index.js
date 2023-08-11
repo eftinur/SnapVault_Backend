@@ -46,7 +46,7 @@ async function run() {
     const postsCollection = client.db("SnapVault").collection("posts");
     
     // API routes
-    // API to get posts data sorted
+    // API to get posts data sorted descendently
     app.get("/posts", async (req, res) => {
       let query = {};
       if (req.query.user_email) {
@@ -70,5 +70,3 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-console.log(uri);
